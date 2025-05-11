@@ -18,9 +18,13 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): JsonResponse
     {
         try {
+            //cette fonction contient deja la verification des credentials (email et password)
             $request->authenticate();
+
+            //rechercher l'email de l'utilisateur puis comparer
             $user = User::where('email', $request->email)->first();
             
+            //creer un token propre à l'utilisateur apres connexion
             $token = $user->createToken('token')->plainTextToken;
     
             return response()->json([
@@ -44,6 +48,7 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         try {
+            //currentAccessToken pour supprimer que le token de la session en cours
             $request->user()->currentAccessToken()->delete();
             return response()->json(['message' => 'deconnexion reussie']);
             

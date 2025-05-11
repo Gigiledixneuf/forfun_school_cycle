@@ -22,6 +22,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
+            //validaton des donnes
             $valiated = $request->validate([
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -29,18 +30,22 @@ class RegisteredUserController extends Controller
                 'role' => 'in:admin,tutor'
             ]);
     
+            //creation de l'utilisateur
             $user = User::create([
                 'name' => $valiated['name'],
                 'email' => $valiated['email'],
                 'password' => Hash::make($valiated['password']),
+                //si aucun role n'est choisi il prend tutor par defaut directement 
                 'role' => $valiated['role'] ?? 'tutor'
             ]);
     
         
+            //cet event à utilser ex lors de la verification de l'email
             event(new Registered($user));
             // Auth::login($user);
     
 
+            //creation d'un token propre à l'utilisateur 
             $token = $user->createToken('token')->plainTextToken;
             return response()->json([
                 "data" => [
