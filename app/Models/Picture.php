@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Picture extends Model
 {
-    protected $fillable = [
-        "url",
-        "announcement_id"
-    ];
+    protected $fillable = ['announcement_id', 'url'];
 
-    public function announcement(){
+    public function announcement()
+    {
         return $this->belongsTo(Announcement::class);
     }
 }

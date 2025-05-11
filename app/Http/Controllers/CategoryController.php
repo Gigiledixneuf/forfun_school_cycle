@@ -39,7 +39,7 @@ class CategoryController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'data' => $e->getMessage()
+                'error' => $e->getMessage()
             ]);
         }
     }

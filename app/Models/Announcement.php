@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Announcement extends Model
 {
     protected $fillable = [
-        'tutor_id',
+        'user_id',
         'category_id',
         'title',
         'description',
@@ -19,7 +19,7 @@ class Announcement extends Model
         'exchange_location_lat'
     ];
 
-    public function tutor(){
+    public function user(){
         return $this->belongsTo(User::class);
     }
 
@@ -28,7 +28,7 @@ class Announcement extends Model
     }
 
     public function pictures(){
-        return $this->hasMany(Picture::class);
+        return $this->hasMany(Picture::class, 'announcement_id');
     }
 
     public function favorites(){
