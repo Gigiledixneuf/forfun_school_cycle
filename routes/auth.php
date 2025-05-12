@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\TutorController;
 use App\Models\Announcement;
 use Illuminate\Support\Facades\Route;
@@ -48,3 +49,7 @@ Route::apiResource('/categories', CategoryController::class);
 Route::get('/all_announcement', [AnnouncementController::class, 'index']);
 Route::apiResource('/announcement', AnnouncementController::class)->except('index')->middleware('auth:sanctum');
 Route::get('/my_announcement', [AnnouncementController::class, 'myAnnoucements'])->middleware('auth:sanctum');
+
+//connexion avec google
+Route::get('/auth/oauth/{provider}/redirect', [SocialiteController::class, 'redirect']);
+Route::get('/auth/oauth/{provider}/callback', [SocialiteController::class, 'callback']);
